@@ -25,4 +25,13 @@
         </entry>
     </util:map>
 
+    <bean class="common.dto.UserProfileStructure" id="newUserProfileConfig"
+          p:name = ""
+          p:level = "1"
+          p:experience = "0"
+          p:energy = "25"
+          p:rating = "0"
+          p:money = "100"
+    />
+
 </beans>

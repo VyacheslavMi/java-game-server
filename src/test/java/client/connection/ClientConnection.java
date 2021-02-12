@@ -66,7 +66,7 @@ public class ClientConnection {
         channel.writeAndFlush(message);
         Object response = null;
         try {
-            response = incomingMessages().poll(500, TimeUnit.MILLISECONDS);
+            response = incomingMessages().poll(2000, TimeUnit.MILLISECONDS);
         } catch (InterruptedException ignored) {
         }
         Assertions.assertNotNull(response);

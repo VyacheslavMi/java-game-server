@@ -1,7 +1,9 @@
 package server.service;
 
+import common.dto.UserProfileStructure;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,9 @@ public class UserProfileDao implements UserProfileRegistry {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
+    @Value("#{newUserProfileConfig}")
+    private UserProfileStructure newUserProfileConfig;
+
     @Resource
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
@@ -39,9 +44,19 @@ public class UserProfileDao implements UserProfileRegistry {
                 )
         );
         namedParameterJdbcTemplate.update(
-                "insert into user_profile (id) values (:profile_id)",
+                "insert into user_profile (" +
+                        "id, name, level, experience, energy," +
+                        " rating, money, backpack, inventory, friends) " +
+                        "values (:profile_id, :name, :level, :experience, :energy," +
+                        " :rating, :money, '', '', '')",
                 Map.of(
-                        "profile_id", nextUserProfileId
+                        "profile_id", nextUserProfileId,
+                        "name", newUserProfileConfig.name,
+                        "level", newUserProfileConfig.level,
+                        "experience", newUserProfileConfig.experience,
+                        "energy", newUserProfileConfig.energy,
+                        "rating", newUserProfileConfig.rating,
+                        "money", newUserProfileConfig.money
                 )
         );
 
